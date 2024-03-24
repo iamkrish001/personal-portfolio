@@ -6,7 +6,7 @@ $(function() {
       // additional error messages or events
     },
     submitSuccess: function($form, event) {
-      event.preventDefault(); // prevent default submit behavior
+      event.preventDefault(); // prevent default submit behaviour
       // get values from FORM
       var name = $("input#name").val();
       var email = $("input#email").val();
@@ -18,7 +18,7 @@ $(function() {
         firstName = name.split(' ').slice(0, -1).join(' ');
       }
       $this = $("#sendMessageButton");
-      $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
+      $this.prop("disabled", false); // Disable submit button until AJAX call is complete to prevent duplicate messages
       $.ajax({
         url: "././mail/contact_me.php",
         type: "POST",
@@ -38,12 +38,8 @@ $(function() {
             .append("<strong>Your message has been sent. </strong>");
           $('#success > .alert-success')
             .append('</div>');
-          // clear all fields
+          //clear all fields
           $('#contactForm').trigger("reset");
-          // Hide success message after 5 seconds
-          setTimeout(function() {
-            $('#success').html('');
-          }, 5000);
         },
         error: function() {
           // Fail message
@@ -52,15 +48,13 @@ $(function() {
             .append("</button>");
           $('#success > .alert-danger').append($("<strong>").text("Thank you!"));
           $('#success > .alert-danger').append('</div>');
-          // clear all fields
+          //clear all fields
           $('#contactForm').trigger("reset");
-          // Hide error message after 5 seconds
-          setTimeout(function() {
-            $('#success').html('');
-          }, 5000);
         },
         complete: function() {
-          $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+          setTimeout(function() {
+            $this.prop("disabled", true); // Re-enable submit button when AJAX call is complete
+          }, 1000);
         }
       });
     },
@@ -73,10 +67,9 @@ $(function() {
     e.preventDefault();
     $(this).tab("show");
   });
+});
 
-  /* When clicking on Full hide fail/success boxes */
-  $('#name').focus(function() {
-    $('#success').html('');
-  });
-
+/*When clicking on Full hide fail/success boxes */
+$('#name').focus(function() {
+  $('#success').html('');
 });
